@@ -15,6 +15,23 @@ class SQL_Server : public net::server::IServer<SQL_context>
 	std::mutex users_m;
 	std::unique_lock<std::mutex> users_lock;
 
+	std::string SanitizeInput(std::string input)
+	{
+		int i = 0;
+		while (i < input.length())
+		{
+			if (input[i] == '\'')
+			{
+				std::string a = input.substr(0, i);
+				std::string b = input.substr(i);
+				input = a + '\'' + b;
+				i++;
+			}
+			i++;
+		}
+		return input;
+	}
+
 public:
 	SQL_Server(int port, DataBase db) : net::server::IServer<SQL_context>(port), db(db) {
 		users_lock = std::unique_lock<std::mutex>(users_m);
@@ -32,10 +49,13 @@ protected:
 			msg->getString(username);
 			msg->getString(password);
 
-			std::cout << "Login: \"" + (std::string)username + "\", password: \"" + (std::string)password << "\"\n";
+			std::string s_username = SanitizeInput(username);
+			std::string s_password = SanitizeInput(password);
+
+			std::cout << "Login: \"" + s_username + "\", password: \"" + s_password << "\"\n";
 
 			std::string login = "SELECT PRIVILIDGE FROM USER"
-								"   WHERE USERNAME == '" + (std::string)username + "' AND PASSWORD == '" + (std::string)password + "';";
+								"   WHERE USERNAME == '" + s_username + "' AND PASSWORD == '" + s_password + "';";
 
 			common::SQL_table result = db.select(login);
 
