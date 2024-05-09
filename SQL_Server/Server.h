@@ -68,6 +68,20 @@ protected:
 			this->Send(table, sender);
 			break;
 		}
+		case SelectProjects:
+		{
+			char* project = (char*)malloc(msg->getStringLen()+1);
+			msg->getString(project);
+			std::string query = "SELECT * FROM PROJECT WHERE NAME='" + (std::string)project + "';";
+			common::SQL_table t = db.select(query);
+			void* serialized;
+			int size = t.Serialize(&serialized);
+
+			net::common::Message<SQL_context> table(SendTable, size);
+			table.put(serialized, size);
+			this->Send(table, sender);
+			break;
+		}
 		}
 
 		delete msg;

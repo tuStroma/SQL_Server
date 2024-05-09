@@ -107,6 +107,16 @@ int main()
 			net::common::Message<SQL_context> select(SelectEmployees, 0);
 			client.Send(select);
 		}
+		else if (command == "project")
+		{
+			std::cout << "Search project:\t";
+			std::string project;
+			std::cin.get(); std::getline(std::cin, project);
+
+			net::common::Message<SQL_context> select(SelectProjects, project.length() + 1);
+			select.putString(project.c_str());
+			client.Send(select);
+		}
 		else if (command == "w")
 		{
 		}

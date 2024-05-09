@@ -11,5 +11,6 @@ enum SQL_context {
 
 	SendTable,
 
-	SelectEmployees
+	SelectEmployees,
+	SelectProjects
 };
