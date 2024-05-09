@@ -26,6 +26,11 @@ int main()
     //db.select(  "SELECT PRIVILIDGE FROM USER"
     //            "   WHERE USERNAME == 'stroma';").print();
 
+
+    // Database metadata
+    db.select("SELECT name, type FROM sqlite_schema  WHERE type = 'table' ORDER BY name; ").print();
+    db.select("PRAGMA table_info(USER);").print();
+
     SQL_Server server(60001, db);
     server.Start();
 
