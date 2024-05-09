@@ -225,12 +225,18 @@ namespace common
 			{
 				for (int c = 0; c < columns; c++)
 				{
+					int val_lenght = 1;
+					std::cout << "| ";
 					if (records[r][c])
 					{
-						std::cout << "| " << records[r][c] << ' ';
-						for (int i = strlen(records[r][c]); i < widths[c]; i++)
-							std::cout << ' ';
+						std::cout << records[r][c];
+						val_lenght = strlen(records[r][c]);
 					}
+					else
+						std::cout << '-';
+
+					for (int i = val_lenght; i < widths[c] + 1; i++)
+						std::cout << ' ';
 				}
 				std::cout << "|\n";
 				verticalLine(widths);
